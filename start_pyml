@@ -1,0 +1,3 @@
+#docker run -it --rm --name pyml -v /home/pi/pyml/app:/app -v /home/pi/pyml/support:/support joliva/pyml:latest
+docker run -it --rm --name pyml -v /home/pi/pyml/app:/app -v /home/pi/pyml/support:/support joliva/pyml:latest /bin/bash
+
