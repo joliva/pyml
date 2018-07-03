@@ -36,11 +36,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ADD requirements.txt torch_raspi-0.4.0-cp35-cp35m-linux_armv7l.whl /tmp/
 
-# Install any needed packages specified in requirements.txt
 RUN pip3 install --upgrade pip
-RUN pip3 install --trusted-host pypi.python.org -r /tmp/requirements.txt
 RUN pip3 install /tmp/torch_raspi-0.4.0-cp35-cp35m-linux_armv7l.whl
 RUN pip3 install torchvision-raspi torchtext
+
+# Install any needed packages specified in requirements.txt
+RUN pip3 install --trusted-host pypi.python.org -r /tmp/requirements.txt
+
+# Run app.py when the container launches
 
 # dummy source code
 RUN mkdir /app; echo "print(\"Howdy\")" > /app/app.py
@@ -49,8 +52,12 @@ RUN mkdir /app; echo "print(\"Howdy\")" > /app/app.py
 # EXPOSE 80
 EXPOSE 4000
 
+# jupyterlab
+EXPOSE 8888
+
 WORKDIR /app
 
-# Run app.py when the container launches
-CMD ["python3", "app.py"]
+#CMD ["python3", "app.py"]
+
+CMD ["/usr/local/bin/jupyter","lab","--ip=0.0.0.0","--port=8888","--allow-root","--no-browser"]
 
